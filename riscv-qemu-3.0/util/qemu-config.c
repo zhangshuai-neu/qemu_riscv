@@ -298,6 +298,8 @@ void qemu_add_drive_opts(QemuOptsList *list)
     abort();
 }
 
+
+// qemu 添加选项
 void qemu_add_opts(QemuOptsList *list)
 {
     int entries, i;
@@ -314,6 +316,7 @@ void qemu_add_opts(QemuOptsList *list)
     abort();
 }
 
+// 
 int qemu_set_option(const char *str)
 {
     Error *local_err = NULL;

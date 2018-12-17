@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "osdep.h": "c",
+        "*.def": "c"
+    }
+}

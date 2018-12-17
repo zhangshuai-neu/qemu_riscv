@@ -49,6 +49,7 @@ typedef struct QemuOptDesc {
     const char *def_value_str;
 } QemuOptDesc;
 
+// qemu选项列表
 struct QemuOptsList {
     const char *name;
     const char *implied_opt_name;

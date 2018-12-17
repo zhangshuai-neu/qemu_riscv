@@ -1854,6 +1854,7 @@ static bool main_loop_should_exit(void)
     return false;
 }
 
+// main_loop
 static void main_loop(void)
 {
 #ifdef CONFIG_PROFILER
@@ -2876,6 +2877,7 @@ static int global_init_func(void *opaque, QemuOpts *opts, Error **errp)
     return 0;
 }
 
+// 读取qemu配置
 static int qemu_read_default_config_file(void)
 {
     int ret;
@@ -2907,6 +2909,7 @@ static void register_global_properties(MachineState *ms)
     user_register_global_props();
 }
 
+//
 int main(int argc, char **argv, char **envp)
 {
     int i;
@@ -2942,6 +2945,8 @@ int main(int argc, char **argv, char **envp)
     Error *err = NULL;
     bool list_data_dirs = false;
     char *dir, **dirs;
+
+    //块设备选项队列
     typedef struct BlockdevOptions_queue {
         BlockdevOptions *bdo;
         Location loc;
@@ -2952,6 +2957,7 @@ int main(int argc, char **argv, char **envp)
 
     module_call_init(MODULE_INIT_TRACE);
 
+    // 初始化cpu列表
     qemu_init_cpu_list();
     qemu_init_cpu_loop();
 
@@ -3018,6 +3024,7 @@ int main(int argc, char **argv, char **envp)
     autostart = 1;
 
     /* first pass of option parsing */
+    // 第一遍 选项解释
     optind = 1;
     while (optind < argc) {
         if (argv[optind][0] != '-') {
@@ -3997,6 +4004,7 @@ int main(int argc, char **argv, char **envp)
         exit(1);
     }
 
+    // qemu_init_main_loop 初始化main_loop
     if (qemu_init_main_loop(&main_loop_err)) {
         error_report_err(main_loop_err);
         exit(1);
@@ -4510,6 +4518,7 @@ int main(int argc, char **argv, char **envp)
     parse_numa_opts(current_machine);
 
     /* do monitor/qmp handling at preconfig state if requested */
+    // 在preconfig状态下运行监控器
     main_loop();
 
     /* from here on runstate is RUN_STATE_PRELAUNCH */

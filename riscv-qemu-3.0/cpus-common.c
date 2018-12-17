@@ -36,7 +36,8 @@ static int pending_cpus;
 void qemu_init_cpu_list(void)
 {
     /* This is needed because qemu_init_cpu_list is also called by the
-     * child process in a fork.  */
+     * child process in a fork.  
+     * */
     pending_cpus = 0;
 
     qemu_mutex_init(&qemu_cpu_list_lock);
