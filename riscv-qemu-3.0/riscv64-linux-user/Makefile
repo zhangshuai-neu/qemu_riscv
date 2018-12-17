@@ -1,0 +1,1 @@
+/home/lzk/Desktop/qemu_riscv/riscv-qemu-3.0/Makefile.target

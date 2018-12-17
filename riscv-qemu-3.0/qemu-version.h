@@ -1,0 +1,2 @@
+#define QEMU_PKGVERSION "v3.0.0-rc2-82-g3ee161b-dirty"
+#define QEMU_FULL_VERSION QEMU_VERSION " (" QEMU_PKGVERSION ")"
