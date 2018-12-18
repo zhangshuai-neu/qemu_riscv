@@ -1,6 +1,9 @@
 {
     "files.associations": {
         "osdep.h": "c",
-        "*.def": "c"
+        "*.def": "c",
+        "vmstate.h": "c",
+        "block_int.h": "c",
+        "snapshot.h": "c"
     }
 }

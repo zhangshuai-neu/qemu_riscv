@@ -686,6 +686,7 @@ static const RunStateTransition runstate_transitions_def[] = {
     { RUN_STATE__MAX, RUN_STATE__MAX },
 };
 
+// 运行状态转移
 static bool runstate_valid_transitions[RUN_STATE__MAX][RUN_STATE__MAX];
 
 bool runstate_check(RunState state)
@@ -705,6 +706,7 @@ bool runstate_store(char *str, size_t size)
     return true;
 }
 
+// 运行状态初始化
 static void runstate_init(void)
 {
     const RunStateTransition *p;
@@ -747,6 +749,7 @@ bool runstate_needs_reset(void)
         runstate_check(RUN_STATE_SHUTDOWN);
 }
 
+//QEMU Management Protocol 查询状态 
 StatusInfo *qmp_query_status(Error **errp)
 {
     StatusInfo *info = g_malloc0(sizeof(*info));
@@ -781,7 +784,7 @@ void qemu_system_vmstop_request(RunState state)
 
 /***********************************************************/
 /* real time host monotonic timer */
-
+// 实时时钟
 static time_t qemu_time(void)
 {
     return qemu_clock_get_ms(QEMU_CLOCK_HOST) / 1000;
@@ -2909,7 +2912,7 @@ static void register_global_properties(MachineState *ms)
     user_register_global_props();
 }
 
-//
+// 主函数
 int main(int argc, char **argv, char **envp)
 {
     int i;
@@ -2961,6 +2964,7 @@ int main(int argc, char **argv, char **envp)
     qemu_init_cpu_list();
     qemu_init_cpu_loop();
 
+    // 互斥锁
     qemu_mutex_lock_iothread();
 
     atexit(qemu_run_exit_notifiers);
@@ -3050,6 +3054,7 @@ int main(int argc, char **argv, char **envp)
     }
 
     /* second pass of option parsing */
+    // 第二遍 选项解释
     optind = 1;
     for(;;) {
         if (optind >= argc)
@@ -4655,6 +4660,7 @@ int main(int argc, char **argv, char **envp)
     gdbserver_cleanup();
 
     /* No more vcpu or device emulation activity beyond this point */
+    // 
     vm_shutdown();
 
     job_cancel_sync_all();

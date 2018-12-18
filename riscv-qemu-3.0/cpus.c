@@ -126,6 +126,7 @@ static int icount_time_shift;
 /* Arbitrarily pick 1MIPS as the minimum allowable speed.  */
 #define MAX_ICOUNT_SHIFT 10
 
+// 计时器状态
 typedef struct TimersState {
     /* Protected by BQL.  */
     int64_t cpu_ticks_prev;
