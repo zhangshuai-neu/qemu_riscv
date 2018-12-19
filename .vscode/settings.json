@@ -4,6 +4,7 @@
         "*.def": "c",
         "vmstate.h": "c",
         "block_int.h": "c",
-        "snapshot.h": "c"
+        "snapshot.h": "c",
+        "monitor.h": "c"
     }
 }
