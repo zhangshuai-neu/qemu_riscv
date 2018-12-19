@@ -423,6 +423,7 @@ struct MemoryListener {
 
 /**
  * AddressSpace: describes a mapping of addresses to #MemoryRegion objects
+ * 描述MemoryRegion结构的地址映射
  */
 struct AddressSpace {
     /* All fields are private. */

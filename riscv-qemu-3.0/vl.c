@@ -32,21 +32,21 @@
 #include "sysemu/seccomp.h"
 
 #ifdef CONFIG_SDL
-#if defined(__APPLE__) || defined(main)
-#include <SDL.h>
-int qemu_main(int argc, char **argv, char **envp);
-int main(int argc, char **argv)
-{
-    return qemu_main(argc, argv, NULL);
-}
-#undef main
-#define main qemu_main
-#endif
+    #if defined(__APPLE__) || defined(main)
+            #include <SDL.h>
+            int qemu_main(int argc, char **argv, char **envp);
+            int main(int argc, char **argv)
+            {
+                return qemu_main(argc, argv, NULL);
+            }
+        #undef main
+        #define main qemu_main
+    #endif
 #endif /* CONFIG_SDL */
 
 #ifdef CONFIG_COCOA
-#undef main
-#define main qemu_main
+    #undef main
+    #define main qemu_main
 #endif /* CONFIG_COCOA */
 
 
@@ -577,11 +577,11 @@ static int default_driver_check(void *opaque, QemuOpts *opts, Error **errp)
 }
 
 /***********************************************************/
-/* QEMU state */
+/* QEMU state  qemu的状态 */
 
 static RunState current_run_state = RUN_STATE_PRECONFIG;
 
-/* We use RUN_STATE__MAX but any invalid value will do */
+/* We use RUN_STATE__MAX but any invalid value will do */ 
 static RunState vmstop_requested = RUN_STATE__MAX;
 static QemuMutex vmstop_lock;
 
@@ -590,6 +590,7 @@ typedef struct {
     RunState to;
 } RunStateTransition;
 
+// 运行状态的转换
 static const RunStateTransition runstate_transitions_def[] = {
     /*     from      ->     to      */
     { RUN_STATE_PRECONFIG, RUN_STATE_PRELAUNCH },
@@ -2960,11 +2961,11 @@ int main(int argc, char **argv, char **envp)
 
     module_call_init(MODULE_INIT_TRACE);
 
-    // 初始化cpu列表
+    // 初始化cpu列表，
     qemu_init_cpu_list();
     qemu_init_cpu_loop();
 
-    // 互斥锁
+    // 互斥锁 cpus.c
     qemu_mutex_lock_iothread();
 
     atexit(qemu_run_exit_notifiers);
@@ -2973,6 +2974,8 @@ int main(int argc, char **argv, char **envp)
 
     module_call_init(MODULE_INIT_QOM);
 
+    // 将选项加入到 vm_config_groups 列表中 qemu-config.c
+    // 初始化各个部件的参数,默认的值在上面 本文件
     qemu_add_opts(&qemu_drive_opts);
     qemu_add_drive_opts(&qemu_legacy_drive_opts);
     qemu_add_drive_opts(&qemu_common_drive_opts);
@@ -3005,9 +3008,10 @@ int main(int argc, char **argv, char **envp)
     qemu_add_opts(&qemu_fw_cfg_opts);
     module_call_init(MODULE_INIT_OPTS);
 
+    // 运行状态初始化
     runstate_init();
     postcopy_infrastructure_init();
-    monitor_init_globals();
+    monitor_init_globals(); //监控器初始化
 
     if (qcrypto_init(&err) < 0) {
         error_reportf_err(err, "cannot initialize crypto: ");
@@ -4056,6 +4060,8 @@ int main(int argc, char **argv, char **envp)
         }
     }
 
+
+    // cpu执行环境初始化，内存结构的初始化
     cpu_exec_init_all();
 
     if (machine_class->hw_version) {
