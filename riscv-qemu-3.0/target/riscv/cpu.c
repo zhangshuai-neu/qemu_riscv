@@ -28,13 +28,14 @@
 
 static const char riscv_exts[26] = "IEMAFDQCLBJTPVNSUHKORWXYZG";
 
+// 整数寄存器名字
 const char * const riscv_int_regnames[] = {
   "zero", "ra  ", "sp  ", "gp  ", "tp  ", "t0  ", "t1  ", "t2  ",
   "s0  ", "s1  ", "a0  ", "a1  ", "a2  ", "a3  ", "a4  ", "a5  ",
   "a6  ", "a7  ", "s2  ", "s3  ", "s4  ", "s5  ", "s6  ", "s7  ",
   "s8  ", "s9  ", "s10 ", "s11 ", "t3  ", "t4  ", "t5  ", "t6  "
 };
-
+// 浮点数寄存器名字
 const char * const riscv_fpr_regnames[] = {
   "ft0 ", "ft1 ", "ft2 ", "ft3 ", "ft4 ", "ft5 ", "ft6 ",  "ft7 ",
   "fs0 ", "fs1 ", "fa0 ", "fa1 ", "fa2 ", "fa3 ", "fa4 ",  "fa5 ",
@@ -42,6 +43,7 @@ const char * const riscv_fpr_regnames[] = {
   "fs8 ", "fs9 ", "fs10", "fs11", "ft8 ", "ft9 ", "ft10",  "ft11"
 };
 
+// 异常名字
 const char * const riscv_excp_names[] = {
     "misaligned_fetch",
     "fault_fetch",
@@ -61,15 +63,19 @@ const char * const riscv_excp_names[] = {
     "store_page_fault"
 };
 
+// 中断名字
 const char * const riscv_intr_names[] = {
+    // 软件中断
     "u_software",
     "s_software",
     "h_software",
     "m_software",
+    // 时钟中断
     "u_timer",
     "s_timer",
     "h_timer",
     "m_timer",
+    // 外部中断
     "u_external",
     "s_external",
     "h_external",

@@ -1,4 +1,5 @@
 /* RISC-V ISA constants */
+// risc-v 指令架构的常量，一些配置寄存器地址，和用于配置的常量
 
 #define get_field(reg, mask) (((reg) & \
                  (target_ulong)(mask)) / ((mask) & ~((mask) << 1)))
@@ -358,10 +359,10 @@
 #endif
 
 /* Privilege modes */
-#define PRV_U 0
-#define PRV_S 1
-#define PRV_H 2
-#define PRV_M 3
+#define PRV_U 0 // user 用户 -- 运行程序
+#define PRV_S 1 // supervisor 监视 -- 运行os
+#define PRV_H 2 // hypervisor 监控器 -- 虚拟化的监控器
+#define PRV_M 3 // machine 机器 -- 直接操作硬件
 
 /* RV32 satp CSR field masks */
 #define SATP32_MODE         0x80000000

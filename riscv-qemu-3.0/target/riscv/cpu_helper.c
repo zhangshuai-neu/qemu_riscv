@@ -50,6 +50,7 @@ static int riscv_cpu_local_irq_mode_enabled(CPURISCVState *env, int mode)
 
 static int riscv_cpu_local_irq_pending(CPURISCVState *env)
 {
+    // 
     target_ulong mstatus_mie = get_field(env->mstatus, MSTATUS_MIE);
     target_ulong mstatus_sie = get_field(env->mstatus, MSTATUS_SIE);
     target_ulong pending = atomic_read(&env->mip) & env->mie;
@@ -66,6 +67,7 @@ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
 }
 #endif
 
+// riscv执行中断
 bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
 {
 #if !defined(CONFIG_USER_ONLY)

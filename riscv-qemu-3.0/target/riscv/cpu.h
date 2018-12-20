@@ -115,12 +115,22 @@ struct CPURISCVState {
     target_ulong load_res;
     target_ulong load_val;
 
+    /*
+     *
+     * [riscv-spec 2.2]
+     * 浮点数的舍入模式的配置
+     * Floating-point operations use either a static rounding mode(静态舍入) encoded
+     * in the instruction, or a dynamic rounding mode(动态舍入) held in frm. 
+     */
     target_ulong frm;
 
     target_ulong badaddr;
 
-    target_ulong user_ver;
-    target_ulong priv_ver;
+    target_ulong user_ver;  //用户模式版本 跟riscv-spec-v2.2.pdf对应
+    target_ulong priv_ver;  //特权模式版本  riscv-privileged-v1.9.1.pdf对应
+
+    // Write Any Values, Reads Legal Values
+    // misa 指令集架构
     target_ulong misa;
     target_ulong misa_mask;
 
@@ -134,8 +144,8 @@ struct CPURISCVState {
     target_ulong priv;
     target_ulong resetvec;
 
-    target_ulong mhartid;
-    target_ulong mstatus;
+    target_ulong mhartid;   // 记录 hrad thread id
+    target_ulong mstatus;   // 记录机器状态 不同bit表示不同的状态
 
     /*
      * CAUTION! Unlike the rest of this struct, mip is accessed asynchonously
@@ -146,7 +156,7 @@ struct CPURISCVState {
      * wuth the invariant that CPU_INTERRUPT_HARD is set iff mip is non-zero.
      * mip is 32-bits to allow atomic_read on 32-bit hosts.
      */
-    uint32_t mip;
+    uint32_t mip;   // 记录中断触发状态 mip通过异步io线程来进行访问
     uint32_t miclaim;
     uint32_t mintstatus; /* clic-spec */
     uint32_t exccode;    /* clic-qemu */
@@ -165,7 +175,7 @@ struct CPURISCVState {
     target_ulong sepc;
     target_ulong scause;
 
-    target_ulong mtvec;
+    target_ulong mtvec;  // 异常入口地址
     target_ulong mtvt;   /* clic-spec */
     target_ulong mepc;
     target_ulong mcause;
@@ -194,10 +204,13 @@ struct CPURISCVState {
     /* QEMU */
     CPU_COMMON
 
-    /* Fields from here on are preserved across CPU reset. */
-    QEMUTimer *mtimer; /* Internal timer */
-    QEMUTimer *stimer; /* Internal timer */
-    void *clic;
+    /* 
+     * Fields from here on are preserved across CPU reset. 
+     * 内部时钟
+     */
+    QEMUTimer *mtimer; /* Internal timer 内部时钟 */
+    QEMUTimer *stimer; /* Internal timer 内部时钟 */
+    void *clic; // core local interrupt control
 };
 
 #define RISCV_CPU_CLASS(klass) \
