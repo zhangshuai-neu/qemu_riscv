@@ -37,6 +37,7 @@ static inline uint64_t roundpow2(uint64_t val)
 
 /*
  * Accessor method to extract address matching type 'a field' from cfg reg
+ * 匹配cfg reg的a域来获得访问方法
  */
 static inline uint8_t pmp_a_field(uint8_t cfg)
 {
@@ -45,6 +46,7 @@ static inline uint8_t pmp_a_field(uint8_t cfg)
 
 /*
  * Check whether a PMP is locked or not.
+ * 检查PMP是否被锁上
  */
 static inline int pmp_is_locked(CPURISCVState *env, size_t i)
 {
@@ -69,6 +71,7 @@ static inline int pmp_is_locked(CPURISCVState *env, size_t i)
 
 /*
  * Convert QEMU access type to PMP privileges
+ * 将qemu访问类型转换为PMP的特权级别
  */
 static inline int pmp_access_priv(int access_type)
 {
@@ -112,6 +115,7 @@ static void pmp_decode_napot(target_ulong a, target_ulong *sa, target_ulong *ea)
 
 /*
  * Count active rules when config changes
+ * 当配置修改时，记录活动的规则
  */
 static inline void pmp_count_active_rules(CPURISCVState *env)
 {
@@ -130,6 +134,7 @@ static inline void pmp_count_active_rules(CPURISCVState *env)
 
 /*
  * Check if the address has required RWX privs to complete desired operation
+ * 检查地址的读写特权是否能够完成匹配的操作
  */
 bool pmp_has_access(CPURISCVState *env, target_ulong addr, int size, int rw,
                     target_ulong *tlb_size)
@@ -138,6 +143,7 @@ bool pmp_has_access(CPURISCVState *env, target_ulong addr, int size, int rw,
     bool result;
 
     /* check physical memory protection rules */
+    // 检查物理内存保护规则
     for (size_t i = 0; i < env->pmp_state.active_rules; i++)
     {
         uint8_t cfg_reg = env->pmp_state.pmp[i].cfg_reg;
@@ -193,6 +199,7 @@ match:
 
 /*
  * Handle a write to a pmpcfg CSR
+ * 写pmp配置csr
  */
 void pmpcfg_csr_write(CPURISCVState *env, size_t cfg, target_ulong val)
 {
@@ -217,6 +224,7 @@ void pmpcfg_csr_write(CPURISCVState *env, size_t cfg, target_ulong val)
 
 /*
  * Handle a read from a pmpcfg CSR
+ * 读pmp配置csr
  */
 target_ulong pmpcfg_csr_read(CPURISCVState *env, size_t cfg)
 {
@@ -226,7 +234,7 @@ target_ulong pmpcfg_csr_read(CPURISCVState *env, size_t cfg)
         if (cfg & 1) {
             return 0;
         }
-        cfg >>= 1;
+          >>= 1;
     }
 
     for (size_t b = 0; b < sizeof(target_ulong); b++) {
@@ -243,6 +251,7 @@ target_ulong pmpcfg_csr_read(CPURISCVState *env, size_t cfg)
 
 /*
  * Handle a write to a pmpaddr CSR
+ * 写pmp地址csr
  */
 void pmpaddr_csr_write(CPURISCVState *env, size_t addr, target_ulong val)
 {
@@ -264,6 +273,7 @@ void pmpaddr_csr_write(CPURISCVState *env, size_t addr, target_ulong val)
 
 /*
  * Handle a read from a pmpaddr CSR
+ * 读pmp地址csr
  */
 target_ulong pmpaddr_csr_read(CPURISCVState *env, size_t addr)
 {

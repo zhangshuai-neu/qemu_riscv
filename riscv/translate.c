@@ -1,6 +1,6 @@
 /*
  * RISC-V emulation for qemu: main translation routines.
- *
+ * 翻译过程，将反汇编的结果翻译成tcg中间表示，并加入到
  */
 
 #include "qemu/osdep.h"
@@ -19,8 +19,9 @@
 #include "instmap.h"
 
 /* global register indices */
+// 全局寄存寄存器索引
 static TCGv cpu_gpr[32], cpu_pc;
-static TCGv_i64 cpu_fpr[32]; /* assume F and D extensions */
+static TCGv_i64 cpu_fpr[32]; /* 如果有F和D扩展 assume F and D extensions */
 static TCGv load_res;
 static TCGv load_val;
 
@@ -43,6 +44,7 @@ typedef struct DisasContext {
 } DisasContext;
 
 /* convert riscv funct3 to qemu memop for load/store */
+// 将riscv的funct3操作者码， 转换成qemu的内存操作
 static const int tcg_memop_lookup[8] = {
     [0 ... 7] = -1,
     [0] = MO_SB,
@@ -55,6 +57,10 @@ static const int tcg_memop_lookup[8] = {
     [6] = MO_TEUL,
 #endif
 };
+
+//===============================
+// 代码生成
+//===============================
 
 #ifdef TARGET_RISCV64
 #define CASE_OP_32_64(X) case X: case glue(X, W)
@@ -133,7 +139,8 @@ static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
     }
 }
 
-/* Wrapper for getting reg values - need to check of reg is zero since
+/* 
+ * Wrapper for getting reg values - need to check of reg is zero since
  * cpu_gpr[0] is not actually allocated
  */
 static inline void gen_get_gpr(TCGv t, int reg_num)
